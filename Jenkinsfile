@@ -4,13 +4,17 @@ pipeline {
         stage('Build Frontend Web') {
             steps {
                 echo 'Building Frontend Angular'
-                
+                dir ('Angular6BaseCli/'){
+                    sh 'npm install'
+                    sh 'npm run build'
+                }
             }
         }
         stage('Deploy Frontend Web') {
             steps {
                 echo 'Deploy Frontend Angular'
-                
+                sh 'docker build -t frontIvette .'
+                sh 'docker run -d -p 9092:80 frontIvette '
             }
         }
     }
